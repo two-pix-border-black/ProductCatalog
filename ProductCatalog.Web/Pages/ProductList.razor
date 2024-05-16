@@ -1,0 +1,29 @@
+﻿@page "/products"
+
+<h3>ProductList</h3>
+
+@* @if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+
+else 
+{
+    <ul>
+        @foreach (var product in products)
+        {
+            <li>
+                <a href="products/@product.ProductId"></a> - @product.Price kr
+            </li>
+        }
+    </ul>
+} *@
+
+@code {
+    // private List<Product> products;
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     products = await Http.GetFromJsonAsync<List<Product>>("https:localhost:5125/api/products");
+    // }
+}
