@@ -53,17 +53,19 @@ namespace ProductCatalog.Api.Factories
                 Price = product.Price
             };
         }
-        
+
         // Factory method to get a product list
-        public static Product FactoryGetProductList(Product product)
+        public static ProductDTO FactoryGetProductList(Product product)
         {
-            return new Product
+            return new ProductDTO
             {
+                ProductId = product.ProductId,
                 Name = product.Name,
                 Price = product.Price,
-                ImageUrl = product.ImageUrl
+                ImageUrl = product.ImageUrl,
+                IsAvailable = product.IsAvailable
             };
         }
-        
+
     }
 }

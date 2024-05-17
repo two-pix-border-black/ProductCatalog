@@ -36,20 +36,22 @@ namespace ProductCatalog.Api.Data.Repo
         }
 
         // Get product by name
-        public async Task<List<Product>> GetProductByName(string name)
+        public async Task<List<ProductDTO>> GetProductByName(string name)
         {
-            return await _context.Products
-                .Include(p => p.Category)
-                .Where(p => p.Name.Contains(name))
-                .ToListAsync();
+            var products = await _context.Products
+                                         .Include(p => p.Category)
+                                         .Where(p => p.Name.Contains(name))
+                                         .ToListAsync();
+            return products.Select(ProductFactory.FactoryGetProductList).ToList();
         }
 
         // Get all products
-        public async Task<List<Product>> GetProducts()
+        public async Task<List<ProductDTO>> GetProducts()
         {
-            return await _context.Products
-                .Include(p => p.Category)
-                .ToListAsync();
+            var products = await _context.Products
+                                         .Include(p => p.Category)
+                                         .ToListAsync();
+            return products.Select(ProductFactory.FactoryGetProductList).ToList();
         }
         #endregion
 

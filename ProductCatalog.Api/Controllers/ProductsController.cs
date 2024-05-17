@@ -36,7 +36,7 @@ namespace ProductCatalog.Api.Controllers
         public async Task<IActionResult> GetProducts()
         {
             var products = await _repo.GetProducts();
-            if (products == null)
+            if (products == null || !products.Any())
             {
                 return NotFound();
             }
@@ -48,7 +48,7 @@ namespace ProductCatalog.Api.Controllers
         public async Task<IActionResult> GetProductByName(string name)
         {
             var products = await _repo.GetProductByName(name);
-            if (products == null || products.Count == 0)
+            if (products == null || !products.Any())
             {
                 return NotFound("No products found.");
             }
