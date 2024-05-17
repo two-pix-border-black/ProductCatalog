@@ -4,8 +4,6 @@
 @using static System.Net.WebRequestMethods
 @inject ApiService ApiService
 
-<h3>ProductList...</h3>
-
 @if (products == null)
 {
     <p><em>Loading...</em></p>
@@ -13,12 +11,25 @@
 
 else
 {
-    <ul>
-        @foreach (var product in products)
-        {
-            <li>@product.Name - @product.Price</li>
-        }
-    </ul>
+    <div class="main-container">
+        <div class="product-filter">
+            <img src="../Assets/filter.svg" />
+            <img src="../Assets/sorting.svg" />
+        </div>
+        <div class="product-container">
+            @foreach (var product in products)
+            {
+                <div class="product-item">
+                    <img class="image-container" src="@product.ImageUrl" alt="@product.Name" />
+                    <div class="product-info">
+                        <h4>@product.Name</h4>
+                        <p>Price: @product.Price</p>
+                        <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 }
 
 @code {
