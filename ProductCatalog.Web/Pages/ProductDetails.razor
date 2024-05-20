@@ -1,0 +1,80 @@
+﻿@page "/productdetails/{productId:int}"
+@using ProductCatalog.Shared.DTOs
+@using YourBlazorApp.Services
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+<h3>ProductDetails</h3>
+
+@if (product == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="product-container">
+        <div class="product-details">
+            <img src="@product.ImageUrl" alt="@product.Name" />
+            <div class="product-title"><h2>@product.Name</h2></div>
+            <div class="product-price">
+                <p>Price: @product.Price kr</p>
+                <div class="quantity-control">
+                    <button class="btn btn-secondary" @onclick="DecreaseQuantity">-</button>
+                    <span>@quantity</span>
+                    <button class="btn btn-secondary" @onclick="IncreaseQuantity">+</button>
+                </div>
+            </div>
+            <div class="product-size"><p>Size: @product.Size</p></div>
+            <div class="product-color">
+                <p>Color: <span class="color-icon" style="background-color:@product.Color"></span> @product.Color</p>
+            </div>
+            <div class="product-description"><p>@product.Description</p></div>
+            <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
+
+            <button class="btn btn-add-cart">+ ADD TO CART</button>
+            <button class="btn btn-secondary" @onclick="NavigateBack">Back to Product List</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int productId { get; set; }
+
+    private ProductDetailsDTO product;
+    private int quantity = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            product = await ApiService.GetProduct(productId);
+        }
+        catch (Exception ex)
+        {
+            // Log error or display message
+            Console.WriteLine($"Error loading product details: {ex.Message}");
+        }
+    }
+
+    private void DecreaseQuantity()
+    {
+        if (quantity > 1)
+        {
+            quantity--;
+        }
+    }
+
+    private void IncreaseQuantity()
+    {
+        if (quantity < 99)
+        {
+            quantity++;
+        }
+    }
+
+    private void NavigateBack()
+    {
+        Navigation.NavigateTo("/products");
+    }
+}

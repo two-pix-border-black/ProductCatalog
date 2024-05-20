@@ -41,16 +41,18 @@ namespace ProductCatalog.Api.Factories
         }
 
         // Factory method to get a product by ID
-        public static Product FactoryGetProductById(Product product)
+        public static ProductDetailsDTO FactoryGetProductById(Product product)
         {
-            return new Product
+            return new ProductDetailsDTO
             {
+                ProductId = product.ProductId,
                 Name = product.Name,
                 Description = product.Description,
                 Color = product.Color,
                 Size = product.Size,
                 ImageUrl = product.ImageUrl,
-                Price = product.Price
+                Price = product.Price,
+                IsAvailable = product.IsAvailable
             };
         }
 

@@ -47,9 +47,9 @@ namespace YourBlazorApp.Services
             return await _httpClient.GetFromJsonAsync<List<ProductDTO>>("api/product");
         }
 
-        public async Task<ProductDTO> GetProduct(int id)
+        public async Task<ProductDetailsDTO> GetProduct(int id)
         {
-            return await _httpClient.GetFromJsonAsync<ProductDTO>($"api/product/{id}");
+            return await _httpClient.GetFromJsonAsync<ProductDetailsDTO>($"api/product/{id}");
         }
 
         public async Task<HttpResponseMessage> CreateProduct(CreateProductDTO product)

@@ -7,7 +7,7 @@ namespace ProductCatalog.Api.Data.Interface
     {
         public Task<Product> CreateProduct(CreateProductDTO dto);
         public Task<bool> DeleteProduct(int id);
-        public Task<Product> GetProduct(int id);
+        public Task<ProductDetailsDTO> GetProduct(int id);
         public Task<List<ProductDTO>> GetProductByName(string name);
         public Task<List<ProductDTO>> GetProducts();
         public Task<Product> UpdateProduct(int id, UpdateProductDTO dto);

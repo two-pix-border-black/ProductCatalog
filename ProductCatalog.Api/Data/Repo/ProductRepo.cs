@@ -28,11 +28,18 @@ namespace ProductCatalog.Api.Data.Repo
 
         #region READ
         // Get product by ID
-        public async Task<Product> GetProduct(int id)
+        public async Task<ProductDetailsDTO> GetProduct(int id)
         {
-            return await _context.Products
+            var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            return ProductFactory.FactoryGetProductById(product);
         }
 
         // Get product by name
@@ -53,13 +60,20 @@ namespace ProductCatalog.Api.Data.Repo
                                          .ToListAsync();
             return products.Select(ProductFactory.FactoryGetProductList).ToList();
         }
+
+        public async Task<Product> GetProductId(int id)
+        {
+            return await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+        }
         #endregion
 
         #region UPDATE
         // Update a product
         public async Task<Product> UpdateProduct(int id, UpdateProductDTO dto)
         {
-            var product = await GetProduct(id);
+            var product = await GetProductId(id);
             if (product == null)
             {
                 return null;
@@ -76,7 +90,7 @@ namespace ProductCatalog.Api.Data.Repo
         // Delete a product
         public async Task<bool> DeleteProduct(int id)
         {
-            var product = await GetProduct(id);
+            var product = await GetProductId(id);
             if (product == null)
             {
                 return false;

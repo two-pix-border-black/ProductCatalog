@@ -3,6 +3,7 @@
 @using YourBlazorApp.Services
 @using static System.Net.WebRequestMethods
 @inject ApiService ApiService
+@inject NavigationManager Navigation
 
 @if (products == null)
 {
@@ -19,14 +20,15 @@ else
         <div class="product-container">
             @foreach (var product in products)
             {
-                <div class="product-item">
+                <NavLink class="product-item" @onclick="() => NavigateToDetails(product.ProductId)">
                     <img class="image-container" src="@product.ImageUrl" alt="@product.Name" />
                     <div class="product-info">
                         <h4>@product.Name</h4>
-                        <p>Price: @product.Price</p>
+                        <p>Price: @product.Price kr</p>
                         <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
+                        @* <button class="btn btn-primary" @onclick="() => NavigateToDetails(product.ProductId)">View Details</button> *@
                     </div>
-                </div>
+                </NavLink>
             }
         </div>
     </div>
@@ -46,5 +48,10 @@ else
             // Log error or display message
             Console.WriteLine($"Error loading products: {ex.Message}");
         }
+    }
+
+    private void NavigateToDetails(int productId)
+    {
+        Navigation.NavigateTo($"/productdetails/{productId}");
     }
 }
