@@ -4,8 +4,6 @@
 @inject ApiService ApiService
 @inject NavigationManager Navigation
 
-<h3>ProductDetails</h3>
-
 @if (product == null)
 {
     <p><em>Loading...</em></p>
@@ -14,7 +12,7 @@ else
 {
     <div class="product-container">
         <div class="product-details">
-            <img src="@product.ImageUrl" alt="@product.Name" />
+            <img class="product-image" src="@product.ImageUrl" alt="@product.Name" />
             <div class="product-title"><h2>@product.Name</h2></div>
             <div class="product-price">
                 <p>Price: @product.Price kr</p>
@@ -26,9 +24,16 @@ else
             </div>
             <div class="product-size"><p>Size: @product.Size</p></div>
             <div class="product-color">
-                <p>Color: <span class="color-icon" style="background-color:@product.Color"></span> @product.Color</p>
+                <p>Color:</p>
+                @foreach (var color in product.Colors)
+                {
+                    <span class="color-icon" style="background-color:@color"></span>
+                }
             </div>
-            <div class="product-description"><p>@product.Description</p></div>
+            <div class="product-description">
+                <p style="font-weight:600">Description:</p>
+                <p>@product.Description</p>
+                </div>
             <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
 
             <button class="btn btn-add-cart">+ ADD TO CART</button>
@@ -67,7 +72,7 @@ else
 
     private void IncreaseQuantity()
     {
-        if (quantity < 99)
+        if (quantity < product.Quantity)
         {
             quantity++;
         }

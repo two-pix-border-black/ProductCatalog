@@ -52,7 +52,10 @@ namespace ProductCatalog.Api.Factories
                 Size = product.Size,
                 ImageUrl = product.ImageUrl,
                 Price = product.Price,
-                IsAvailable = product.IsAvailable
+                Quantity = product.Quantity,
+                Gender = product.Gender,
+                IsAvailable = product.IsAvailable,
+                CategoryId = product.CategoryId
             };
         }
 
