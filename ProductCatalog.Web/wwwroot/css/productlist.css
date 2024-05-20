@@ -6,26 +6,26 @@
 }
 
 .main-container {
-  max-width: 1200px; /* Använd max-width för att begränsa bredden */
+  max-width: 1200px;
   padding: 2rem;
-  margin: 2rem auto; /* Centrera containern */
-  border: 1px solid blue; /* Använd synlig border */
-  background-color: #f9f9f9; /* Lägg till en bakgrundsfärg */
+  margin: 2rem auto;
+  border: 1px solid blue;
+  background-color: #f9f9f9;
 }
 
 .product-filter {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
-  border: 1px solid red; /* Synlig border */
+  border: 1px solid red;
 }
 
 .product-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Anpassar kolumnerna baserat på skärmstorlek */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
-  border: 1px solid black; /* Synlig border */
-  background-color: #f1f1f1; /* Lägg till en bakgrundsfärg */
+  border: 1px solid black;
+  background-color: #f1f1f1;
 }
 
 .product-item {
@@ -33,50 +33,51 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  border: 1px solid green; /* Synlig border */
-  background-color: #ffffff; /* Bakgrundsfärg för att särskilja produkterna */
+  border: 1px solid green;
+  background-color: #ffffff;
   transition: transform 0.2s;
 }
 .product-item .image-container {
   width: 100%;
-  border: 1px solid green; /* Synlig border */
+  max-height: 70%;
+  border: 1px solid green;
 }
 .product-item:hover {
-  transform: scale(1.05); /* Öka storleken vid hover */
+  transform: scale(1.05);
 }
 .product-item img {
   max-width: 100%;
   height: auto;
 }
 
-/* Media queries för olika skärmstorlekar enligt Bootstraps grid system */
+/* Media queries för olika skärmstorlekar enligt Bootstrap */
 @media (max-width: 575.98px) {
   .product-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolumner på extra små skärmar (<576px) */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 576px) and (max-width: 767.98px) {
   .product-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolumner på små skärmar (≥576px) */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
   .product-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 kolumner på medelstora skärmar (≥768px) */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
   .product-container {
-    grid-template-columns: repeat(4, 1fr); /* 4 kolumner på stora skärmar (≥992px) */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 @media (min-width: 1200px) and (max-width: 1399.98px) {
   .product-container {
-    grid-template-columns: repeat(4, 1fr); /* 4 kolumner på extra stora skärmar (≥1200px) */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 @media (min-width: 1400px) {
   .product-container {
-    grid-template-columns: repeat(4, 1fr); /* 4 kolumner på extra extra stora skärmar (≥1400px) */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
