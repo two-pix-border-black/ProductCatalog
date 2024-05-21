@@ -1,4 +1,4 @@
-﻿.product-container {
+﻿.products-container {
     width: 100%;
     padding: 2rem;
     margin: 2rem auto;
@@ -6,9 +6,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /*display: flex;
-    justify-content: center;
-    padding: 20px;*/
 }
 
 .product-details {
@@ -20,12 +17,6 @@
     padding: 2rem;
     border: 1px solid #ddd;
     background-color: #fff;
-    /*max-width: 600px;
-    width: 100%;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);*/
 
     .product-image {
         max-width: 100%;
@@ -35,6 +26,7 @@
 
     .product-title {
         margin-bottom: 1rem;
+        margin-left: 2rem;
     }
 
     .product-price {
@@ -42,14 +34,36 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        margin-top: 2rem;
         margin-bottom: 1rem;
+        margin-left: 2rem;
 
         .quantity-control {
             display: flex;
             align-items: center;
+            border: 2px solid #ccc;
+            border-radius: 20px;
 
             button {
                 margin: 0 0.5rem;
+            }
+
+            .btn-secondary-decrease {
+                /*margin-top: 1rem;*/
+                /*border-left: 3px solid #ccc;*/
+            }
+
+            .btn-secondary-increase {
+                /*margin-top: 1rem;*/
+                /*border-right: 3px solid #ccc;*/
+            }
+
+            .btn-quantity {
+                /*border-left: 3px solid #ccc;
+                border-right: 3px solid #ccc;*/
+                /*margin-top: 1rem;*/
+                /*border-top: 3px solid #ccc;
+                border-bottom: 3px solid #ccc;*/
             }
         }
     }
@@ -60,13 +74,15 @@
         width: 100%;
         margin-bottom: 1rem;
         text-align: left;
+        margin-left: 2rem;
 
         .color-icon {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             margin-right: 10px;
+            margin-left: 0.5rem;
             border: 1px solid #ccc;
         }
     }
@@ -79,7 +95,7 @@
         margin-top: 1rem;
     }
 
-    .btn-secondary {
+    .btn-secondary-return {
         margin-top: 1rem;
     }
 }

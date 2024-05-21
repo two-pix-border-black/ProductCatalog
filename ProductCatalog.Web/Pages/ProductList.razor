@@ -17,7 +17,7 @@ else
             <img src="../Assets/filter.svg" />
             <img src="../Assets/sorting.svg" />
         </div>
-        <div class="product-container">
+        <div class="product-list-container">
             @foreach (var product in products)
             {
                 <NavLink class="product-item" @onclick="() => NavigateToDetails(product.ProductId)">
@@ -26,7 +26,6 @@ else
                         <h4>@product.Name</h4>
                         <p>Price: @product.Price kr</p>
                         <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
-                        @* <button class="btn btn-primary" @onclick="() => NavigateToDetails(product.ProductId)">View Details</button> *@
                     </div>
                 </NavLink>
             }

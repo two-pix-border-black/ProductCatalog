@@ -10,25 +10,26 @@
 }
 else
 {
-    <div class="product-container">
+    <div class="products-container">
         <div class="product-details">
             <img class="product-image" src="@product.ImageUrl" alt="@product.Name" />
             <div class="product-title"><h2>@product.Name</h2></div>
             <div class="product-price">
-                <p>Price: @product.Price kr</p>
+                <p style ="font-weight:600">Price: @product.Price kr</p>
                 <div class="quantity-control">
-                    <button class="btn btn-secondary" @onclick="DecreaseQuantity">-</button>
-                    <span>@quantity</span>
-                    <button class="btn btn-secondary" @onclick="IncreaseQuantity">+</button>
+                    <button class="btn btn-secondary-decrease" @onclick="DecreaseQuantity">-</button>
+                    <span class="btn-quantity">@quantity</span>
+                    <button class="btn btn-secondary-increase" @onclick="IncreaseQuantity">+</button>
                 </div>
             </div>
-            <div class="product-size"><p>Size: @product.Size</p></div>
+            <div class="product-size"><p style="font-weight:600">Size: @product.Size</p></div>
             <div class="product-color">
-                <p>Color:</p>
+                <p style="font-weight:600"> Color: 
                 @foreach (var color in product.Colors)
                 {
                     <span class="color-icon" style="background-color:@color"></span>
                 }
+                </p>
             </div>
             <div class="product-description">
                 <p style="font-weight:600">Description:</p>
@@ -37,7 +38,7 @@ else
             <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
 
             <button class="btn btn-add-cart">+ ADD TO CART</button>
-            <button class="btn btn-secondary" @onclick="NavigateBack">Back to Product List</button>
+            <button class="btn btn-secondary-return" @onclick="NavigateBack">Back to Product List</button>
         </div>
     </div>
 }
