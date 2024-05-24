@@ -30,11 +30,11 @@ else
                 }
             </div>
             <div class="product-color">
-                    <p style="font-weight:600">Color : </p>
-                    @foreach (var color in product.Colors)
-                    {
+                <p style="font-weight:600">Color : </p>
+                @foreach (var color in product.Colors)
+                {
                     <div class="color-icon @(selectedColor == color ? "selected" : "")" style="background-color:@color" @onclick="() => SelectColor(color)"></div>
-                    }
+                }
             </div>
             <div class="product-description">
                 <p style="font-weight:600">Description : </p>
@@ -42,8 +42,10 @@ else
             </div>
             <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
 
-            <button class="btn btn-add-cart" @onclick="AddToCart">+ ADD TO CART</button>
-            <button class="btn btn-secondary-return" @onclick="NavigateBack">Back to Product List</button>
+            <div class="button-container">
+                <button class="btn btn-add-cart" @onclick="AddToCart" disabled="@(string.IsNullOrEmpty(selectedSize) || string.IsNullOrEmpty(selectedColor))">+ ADD TO CART</button>
+                <button class="btn btn-secondary-return" @onclick="NavigateBack">Back to Product List</button>
+            </div>
         </div>
     </div>
 }
@@ -97,7 +99,10 @@ else
 
     private void AddToCart()
     {
-        Console.WriteLine($"Added to cart: {product.Name}, Size: {selectedSize}, Color: {selectedColor}, Quantity: {quantity}");
+        if (!string.IsNullOrEmpty(selectedSize) && !string.IsNullOrEmpty(selectedColor))
+        {
+            Console.WriteLine($"Added to cart: {product.Name}, Size: {selectedSize}, Color: {selectedColor}, Quantity: {quantity}");
+        }
     }
 
     private void NavigateBack()
