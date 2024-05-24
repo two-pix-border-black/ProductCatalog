@@ -24,6 +24,7 @@
         public int CategoryId { get; set; }
 
         public List<string> Colors => Color.Split(',').Select(c => c.Trim()).ToList();
+        public List<string> Sizes => Size.Split(',').Select(s => s.Trim()).ToList();
     }
 
     public class CreateProductDTO

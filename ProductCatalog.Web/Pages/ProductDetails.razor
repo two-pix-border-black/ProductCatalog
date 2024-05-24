@@ -15,29 +15,34 @@ else
             <img class="product-image" src="@product.ImageUrl" alt="@product.Name" />
             <div class="product-title"><h2>@product.Name</h2></div>
             <div class="product-price">
-                <p style ="font-weight:600">Price: @product.Price kr</p>
+                <p>Price : $@product.Price</p>
                 <div class="quantity-control">
                     <button class="btn btn-secondary-decrease" @onclick="DecreaseQuantity">-</button>
                     <span class="btn-quantity">@quantity</span>
                     <button class="btn btn-secondary-increase" @onclick="IncreaseQuantity">+</button>
                 </div>
             </div>
-            <div class="product-size"><p style="font-weight:600">Size: @product.Size</p></div>
-            <div class="product-color">
-                <p style="font-weight:600"> Color: 
-                @foreach (var color in product.Colors)
+            <div class="product-size">
+                <p style="font-weight:600">Size : </p>
+                @foreach (var size in product.Sizes)
                 {
-                    <span class="color-icon" style="background-color:@color"></span>
+                    <div class="size-icon @(selectedSize == size ? "selected" : "")" @onclick="() => SelectSize(size)">@size</div>
                 }
-                </p>
+            </div>
+            <div class="product-color">
+                    <p style="font-weight:600">Color : </p>
+                    @foreach (var color in product.Colors)
+                    {
+                    <div class="color-icon @(selectedColor == color ? "selected" : "")" style="background-color:@color" @onclick="() => SelectColor(color)"></div>
+                    }
             </div>
             <div class="product-description">
-                <p style="font-weight:600">Description:</p>
+                <p style="font-weight:600">Description : </p>
                 <p>@product.Description</p>
-                </div>
+            </div>
             <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
 
-            <button class="btn btn-add-cart">+ ADD TO CART</button>
+            <button class="btn btn-add-cart" @onclick="AddToCart">+ ADD TO CART</button>
             <button class="btn btn-secondary-return" @onclick="NavigateBack">Back to Product List</button>
         </div>
     </div>
@@ -49,6 +54,8 @@ else
 
     private ProductDetailsDTO product;
     private int quantity = 1;
+    private string selectedSize;
+    private string selectedColor;
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,7 +65,6 @@ else
         }
         catch (Exception ex)
         {
-            // Log error or display message
             Console.WriteLine($"Error loading product details: {ex.Message}");
         }
     }
@@ -77,6 +83,21 @@ else
         {
             quantity++;
         }
+    }
+
+    private void SelectSize(string size)
+    {
+        selectedSize = size;
+    }
+
+    private void SelectColor(string color)
+    {
+        selectedColor = color;
+    }
+
+    private void AddToCart()
+    {
+        Console.WriteLine($"Added to cart: {product.Name}, Size: {selectedSize}, Color: {selectedColor}, Quantity: {quantity}");
     }
 
     private void NavigateBack()

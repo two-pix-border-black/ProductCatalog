@@ -7,7 +7,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5125/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://maneroproductsapi.azurewebsites.net/") });
 
 builder.Services.AddBlazorBootstrap();
 

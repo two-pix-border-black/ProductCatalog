@@ -24,7 +24,7 @@ else
                     <img class="image-container" src="@product.ImageUrl" alt="@product.Name" />
                     <div class="product-info">
                         <h4>@product.Name</h4>
-                        <p>Price: @product.Price kr</p>
+                        <p>Price: $@product.Price</p>
                         <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
                     </div>
                 </NavLink>
@@ -44,7 +44,6 @@ else
         }
         catch (Exception ex)
         {
-            // Log error or display message
             Console.WriteLine($"Error loading products: {ex.Message}");
         }
     }
