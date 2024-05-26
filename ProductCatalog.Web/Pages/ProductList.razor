@@ -14,9 +14,55 @@ else
 {
     <div class="main-container">
         <div class="product-filter">
-            <img src="../Assets/filter.svg" />
-            <img src="../Assets/sorting.svg" />
+            <img src="/Assets/filter.svg" alt="filter-icon" @onclick="ToggleFilter" />
+            <img src="/Assets/sorting.svg" alt="sorting-icon" @onclick="ToggleSorting" />
         </div>
+        @if (showFilter)
+        {
+            <div class="filter-options">
+                <div class="filter-section">
+                    <h5>Size</h5>
+                    <div class="size-options">
+                        @foreach (var size in sizes)
+                        {
+                            <button class="size-icon @(selectedSize == size ? "selected" : "")" @onclick="() => SelectSize(size)">@size</button>
+                        }
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h5>Color</h5>
+                    <div class="color-options">
+                        @foreach (var color in colors)
+                        {
+                            <span class="color-icon @(selectedColor == color ? "selected" : "")" style="background-color:@color" @onclick="() => SelectColor(color)"></span>
+                        }
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h5>Price</h5>
+                    <input type="range" min="0" max="2000" step="10" @bind="priceRange" />
+                    <p>Price: $0 - $@priceRange</p>
+                </div>
+                <div class="filter-section">
+                    <h5>Tags</h5>
+                    <div class="category-options">
+                        @foreach (var category in categories)
+                        {
+                            <button class="category-icon @(selectedCategory == category.CategoryName ? "selected" : "")" @onclick="() => SelectCategory(category.CategoryName)">@category.CategoryName</button>
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-apply-filters" @onclick="ApplyFilters">Apply Filters</button>
+            </div>
+        }
+        @if (showSorting)
+        {
+            <div class="sorting-options">
+                <button class="btn btn-sort" @onclick='() => SortProducts("price_asc")'>Price: Low to High</button>
+                <button class="btn btn-sort" @onclick='() => SortProducts("price_desc")'>Price: High to Low</button>
+            </div>
+        }
+
         <div class="product-list-container">
             @foreach (var product in products)
             {
@@ -34,13 +80,26 @@ else
 }
 
 @code {
-    private List<ProductDTO> products;
+    private List<ProductDetailsDTO>? products;
+    private List<ProductDetailsDTO>? filteredProducts;
+    private List<CategoryDTO> categories = new List<CategoryDTO>();
+    private List<string> sizes = new List<string> { "XS", "S", "M", "L", "XL", "XXL" };
+    private List<string> colors = new List<string>();
+    private bool showFilter = false;
+    private bool showSorting = false;
+    private string? selectedSize;
+    private string? selectedColor;
+    private string? selectedCategory;
+    private int priceRange = 2000;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             products = await ApiService.GetProducts();
+            colors = await ApiService.GetUniqueColors();
+            categories = await ApiService.GetCategories();
+            filteredProducts = new List<ProductDetailsDTO>(products);
         }
         catch (Exception ex)
         {
@@ -51,5 +110,54 @@ else
     private void NavigateToDetails(int productId)
     {
         Navigation.NavigateTo($"/productdetails/{productId}");
+    }
+
+    private void ToggleFilter()
+    {
+        showFilter = !showFilter;
+    }
+
+    private void ToggleSorting()
+    {
+        showSorting = !showSorting;
+    }
+
+    private void SortProducts(string criteria)
+    {
+        if (criteria == "price_asc")
+        {
+            products = products.OrderBy(p => p.Price).ToList();
+        }
+        else if (criteria == "price_desc")
+        {
+            products = products.OrderByDescending(p => p.Price).ToList();
+        }
+        showSorting = false;
+    }
+
+    private void SelectSize(string size)
+    {
+        selectedSize = size;
+    }
+
+    private void SelectColor(string color)
+    {
+        selectedColor = color;
+    }
+
+    private void SelectCategory(string category)
+    {
+        selectedCategory = category;
+    }
+
+    private void ApplyFilters()
+    {
+        products = filteredProducts.Where(p =>
+            (string.IsNullOrEmpty(selectedSize) || p.Size.Contains(selectedSize)) &&
+            (string.IsNullOrEmpty(selectedColor) || p.Color.Contains(selectedColor)) &&
+            (string.IsNullOrEmpty(selectedCategory) || p.CategoryName == selectedCategory) &&
+            p.Price <= priceRange).ToList();
+
+        showFilter = false;
     }
 }

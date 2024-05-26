@@ -43,7 +43,7 @@ namespace ProductCatalog.Api.Data.Repo
         }
 
         // Get product by name
-        public async Task<List<ProductDTO>> GetProductByName(string name)
+        public async Task<List<ProductDetailsDTO>> GetProductByName(string name)
         {
             var products = await _context.Products
                                          .Include(p => p.Category)
@@ -53,12 +53,21 @@ namespace ProductCatalog.Api.Data.Repo
         }
 
         // Get all products
-        public async Task<List<ProductDTO>> GetProducts()
+        public async Task<List<ProductDetailsDTO>> GetProducts()
         {
             var products = await _context.Products
                                          .Include(p => p.Category)
                                          .ToListAsync();
             return products.Select(ProductFactory.FactoryGetProductList).ToList();
+        }
+
+        // Get unique colors
+        public async Task<List<string>> GetUniqueColors()
+        {
+            return await _context.Products
+                .Select(p => p.Color)
+                .Distinct()
+                .ToListAsync();
         }
 
         public async Task<Product> GetProductId(int id)

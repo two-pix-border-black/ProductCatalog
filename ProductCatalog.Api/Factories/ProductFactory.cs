@@ -60,15 +60,23 @@ namespace ProductCatalog.Api.Factories
         }
 
         // Factory method to get a product list
-        public static ProductDTO FactoryGetProductList(Product product)
+        public static ProductDetailsDTO FactoryGetProductList(Product product)
         {
-            return new ProductDTO
+            var category = product.Category;
+            return new ProductDetailsDTO
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
-                Price = product.Price,
+                Description = product.Description,
+                Color = product.Color,
+                Size = product.Size,
                 ImageUrl = product.ImageUrl,
-                IsAvailable = product.IsAvailable
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Gender = product.Gender,
+                IsAvailable = product.IsAvailable,
+                CategoryId = product.CategoryId,
+                CategoryName = category.CategoryName
             };
         }
 

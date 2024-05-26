@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Api.Data.Interface;
 using ProductCatalog.Api.Models.DTOs;
 
@@ -65,6 +66,18 @@ namespace ProductCatalog.Api.Controllers
                 return NotFound();
             }
             return Ok(product);
+        }
+
+        // Get unique colors
+        [HttpGet("colors")]
+        public async Task<IActionResult> GetUniqueColors()
+        {
+            var colors = await _repo.GetUniqueColors();
+            if (colors == null || !colors.Any())
+            {
+                return NotFound();
+            }
+            return Ok(colors);
         }
         #endregion
 

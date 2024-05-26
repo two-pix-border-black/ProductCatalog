@@ -22,6 +22,7 @@
         public string Gender { get; set; }
         public bool IsAvailable { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 
     public class CreateProductDTO

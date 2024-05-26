@@ -10,6 +10,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="wwwroot\Assets\filter.svg" />
+    <None Include="wwwroot\Assets\sorting.svg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Blazor.Bootstrap" Version="2.2.1" />

@@ -24,21 +24,6 @@ namespace ProductCatalog.Api.Factories
             return category;
         }
 
-        // Factory method to get all categories and convert to DTO
-        public static CategoryDTO GetCategoryDTO(Category category)
-        {
-            return new CategoryDTO
-            {
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName,
-                ChildCategories = category.ChildCategories.Select(c => new ChildCategoryDTO
-                {
-                    CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName
-                }).ToList()
-            };
-        }
-
         // Factory method to get all categories and convert to DTO without products
         public static CategoryDTO ToCategoryDTO(Category category)
         {

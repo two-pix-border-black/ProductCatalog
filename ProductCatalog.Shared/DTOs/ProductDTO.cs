@@ -22,6 +22,7 @@
         public string Gender { get; set; }
         public bool IsAvailable { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
         public List<string> Colors => Color.Split(',').Select(c => c.Trim()).ToList();
         public List<string> Sizes => Size.Split(',').Select(s => s.Trim()).ToList();
