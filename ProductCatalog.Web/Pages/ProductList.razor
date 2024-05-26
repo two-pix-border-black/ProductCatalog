@@ -34,19 +34,27 @@ else
                     <div class="color-options">
                         @foreach (var color in colors)
                         {
-                            <span class="color-icon @(selectedColor == color ? "selected" : "")" style="background-color:@color" @onclick="() => SelectColor(color)"></span>
+                            <div class="color-icon @(selectedColor == color ? "selected" : "")" style="background-color:@color" @onclick="() => SelectColor(color)"></div>
                         }
                     </div>
                 </div>
                 <div class="filter-section">
                     <h5>Price</h5>
-                    <input type="range" min="0" max="2000" step="10" @bind="priceRange" />
+                    <input class="filter-price-range" type="range" min="0" max="1500" step="10" @bind="priceRange" />
                     <p>Price: $0 - $@priceRange</p>
+                </div>
+                <div class="filter-section">
+                    <h5>Gender</h5>
+                    <div class="gender-options">
+                        <button class="gender-icon @(selectedGender == "Man" ? "selected" : "")" @onclick='() => SelectGender("Man")'>Man</button>
+                        <button class="gender-icon @(selectedGender == "Woman" ? "selected" : "")" @onclick='() => SelectGender("Woman")'>Woman</button>
+                        <button class="gender-icon @(selectedGender == "Unisex" ? "selected" : "")" @onclick='() => SelectGender("Unisex")'>Unisex</button>
+                    </div>
                 </div>
                 <div class="filter-section">
                     <h5>Tags</h5>
                     <div class="category-options">
-                        @foreach (var category in categories)
+                        @foreach (var category in allCategories)
                         {
                             <button class="category-icon @(selectedCategory == category.CategoryName ? "selected" : "")" @onclick="() => SelectCategory(category.CategoryName)">@category.CategoryName</button>
                         }
@@ -69,7 +77,7 @@ else
                 <NavLink class="product-item" @onclick="() => NavigateToDetails(product.ProductId)">
                     <img class="image-container" src="@product.ImageUrl" alt="@product.Name" />
                     <div class="product-info">
-                        <h4>@product.Name</h4>
+                        <h5>@product.Name</h5>
                         <p>Price: $@product.Price</p>
                         <p>@(product.IsAvailable ? "Available" : "Out of Stock")</p>
                     </div>
@@ -83,6 +91,7 @@ else
     private List<ProductDetailsDTO>? products;
     private List<ProductDetailsDTO>? filteredProducts;
     private List<CategoryDTO> categories = new List<CategoryDTO>();
+    private List<CategoryDTO> allCategories = new List<CategoryDTO>();
     private List<string> sizes = new List<string> { "XS", "S", "M", "L", "XL", "XXL" };
     private List<string> colors = new List<string>();
     private bool showFilter = false;
@@ -90,16 +99,19 @@ else
     private string? selectedSize;
     private string? selectedColor;
     private string? selectedCategory;
-    private int priceRange = 2000;
+    private string? selectedGender;
+    private int priceRange = 1500;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             products = await ApiService.GetProducts();
-            colors = await ApiService.GetUniqueColors();
+            var colorStrings = await ApiService.GetUniqueColors();
+            colors = colorStrings.SelectMany(c => c.Split(',')).Distinct().ToList();
             categories = await ApiService.GetCategories();
             filteredProducts = new List<ProductDetailsDTO>(products);
+            allCategories = FlattenCategories(categories);
         }
         catch (Exception ex)
         {
@@ -137,17 +149,22 @@ else
 
     private void SelectSize(string size)
     {
-        selectedSize = size;
+        selectedSize = selectedSize == size ? null : size;
     }
 
     private void SelectColor(string color)
     {
-        selectedColor = color;
+        selectedColor = selectedColor == color ? null : color;
     }
 
     private void SelectCategory(string category)
     {
-        selectedCategory = category;
+        selectedCategory = selectedCategory == category ? null : category;
+    }
+
+    private void SelectGender(string gender)
+    {
+        selectedGender = selectedGender == gender ? null : gender;
     }
 
     private void ApplyFilters()
@@ -156,8 +173,44 @@ else
             (string.IsNullOrEmpty(selectedSize) || p.Size.Contains(selectedSize)) &&
             (string.IsNullOrEmpty(selectedColor) || p.Color.Contains(selectedColor)) &&
             (string.IsNullOrEmpty(selectedCategory) || p.CategoryName == selectedCategory) &&
+            (string.IsNullOrEmpty(selectedGender) || p.Gender == selectedGender) &&
             p.Price <= priceRange).ToList();
 
         showFilter = false;
+    }
+
+    private List<CategoryDTO> FlattenCategories(List<CategoryDTO> categories)
+    {
+        HashSet<string> seenCategories = new HashSet<string>();
+        List<CategoryDTO> flatCategories = new List<CategoryDTO>();
+
+        void Flatten(ChildCategoryDTO category)
+        {
+            if (!seenCategories.Contains(category.CategoryName))
+            {
+                flatCategories.Add(new CategoryDTO
+                    {
+                        CategoryId = category.CategoryId,
+                        CategoryName = category.CategoryName,
+                        ChildCategories = new List<ChildCategoryDTO>()
+                    });
+                seenCategories.Add(category.CategoryName);
+            }
+
+            foreach (var child in category.ChildCategories)
+            {
+                Flatten(child);
+            }
+        }
+
+        foreach (var category in categories)
+        {
+            foreach (var child in category.ChildCategories)
+            {
+                Flatten(child);
+            }
+        }
+
+        return flatCategories;
     }
 }
