@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Api.Data.Interface;
 using ProductCatalog.Api.Models.DTOs;
 
