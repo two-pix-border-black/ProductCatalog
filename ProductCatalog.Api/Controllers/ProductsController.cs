@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Api.Data.Interface;
 using ProductCatalog.Api.Models.DTOs;
 
@@ -19,6 +20,7 @@ namespace ProductCatalog.Api.Controllers
         // Create
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO dto)
         {
             var newProduct = await _repo.CreateProduct(dto);
@@ -83,6 +85,7 @@ namespace ProductCatalog.Api.Controllers
         #region UPDATE
         // Update
         [HttpPut("put/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO productDto)
         {
             var updatedProduct = await _repo.UpdateProduct(id, productDto);
@@ -98,6 +101,7 @@ namespace ProductCatalog.Api.Controllers
         #region DELETE
         // Delete
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var deleted = await _repo.DeleteProduct(id);

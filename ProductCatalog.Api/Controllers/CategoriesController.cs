@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Api.Data.Interface;
 using ProductCatalog.Api.Models;
 using ProductCatalog.Api.Models.DTOs;
@@ -19,6 +20,7 @@ namespace ProductCatalog.Api.Controllers
         #region CREATE
         // Create
         [HttpPost("create")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO categoryDto)
         {
             if (categoryDto.ParentCategoryId != null && categoryDto.ParentCategoryId != 0)
@@ -60,6 +62,7 @@ namespace ProductCatalog.Api.Controllers
         #region UPDATE
         // Update
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDTO categoryDto)
         {
             var updatedCategory = await _repo.UpdateCategory(id, categoryDto);
@@ -75,6 +78,7 @@ namespace ProductCatalog.Api.Controllers
         #region DELETE
         // Delete
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _repo.GetCategoryEntity(id);
